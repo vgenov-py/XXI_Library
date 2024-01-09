@@ -1,0 +1,28 @@
+<div class="filter_div">
+    <div class="d-flex flex-row border-1 border mb-4 justify-content-center align-items-center bne_and_or visually-hidden" style="width: 120px;height: 30px;" id="bne_and_or_1">
+        <span class="text-primary">Y&nbsp&nbsp</span>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onclick="and_or_switch(this)">
+            </div>
+            <span class="">O</span>
+    </div>
+    <div class="container-sm border border-1 d-flex align-items-center my-4  position-relative" style="height:75px">
+        <div class="input-group b_filter_group" style="height: 50px;">
+            <input  type="text" class="form-control k" placeholder="Nombre, fecha de nacimiento..." onkeydown="show_ul(this)" id="original_filter">
+            <select class="form-select" aria-label="Default select example">
+                <option selected onclick="set_value(this)">con valor</option>
+                <option onclick="without_value(this)">sin valor</option>
+                <option value="3" onclick="regardless_value(this)">sin importar valor</option>
+              </select>
+            <input  type="text" class="form-control v" placeholder="Valor" onkeydown="set_filter(this)">
+            <div class="d-flex align-items-center">
+            <!-- <button class="btn" onclick="trash_filter(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                </svg>
+            </button> -->
+            </div>
+        </div>
+    </div>
+</div>

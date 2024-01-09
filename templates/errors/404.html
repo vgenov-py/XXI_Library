@@ -1,0 +1,18 @@
+{%extends "base.html"%}
+{%block main%}
+<div class="d-flex justify-content-center">
+    <h1>¡Lo sentimos!</h1>
+</div>
+<div class="d-flex justify-content-center">
+    {%if message%}
+    <h3>{{message}}</h3>
+    {%else%}
+    <h3>Algo ha ido mal</h3>
+    {%endif%}
+</div>
+<div class="d-flex justify-content-center mt-3">
+    <h4>
+        <a href="http://144.91.118.190" class="btn btn-dark">Documentación</a>
+    </h4>
+</div>
+{%endblock%}

@@ -1,0 +1,56 @@
+{%extends "base.html"%}
+{%block main%}
+    <a href="" id="xx"></a>
+    <p id="dataset" hidden>{{dataset}}</p>
+    <h3 class="text-center" id="records">Generando tu conjunto de datos :)</h3>
+    <h3></h3>
+    <div class="progress">
+        <div id="tqdm" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+</body>
+</html>
+<script>
+let url = window.location.href;
+url = url.substring(0, url.length-4);
+const get_data = async(url) => {
+    let res = await fetch(url);
+    
+    const data = await res.json();
+    
+    return data;
+};
+const download_csv = async () => {
+    a = document.querySelector("#xx")
+    const data = await get_data(url);
+    if (!data.data) {
+        return;
+    }
+    if (data.data.length >= 1) {
+        let keys = "";
+        Object.keys(data.data[0]).forEach((r) => keys += `"${r?r:""}";`);
+        let csv = `data:text/csv;charset=utf-8,${keys}\r\n`;
+        const tqdm = document.querySelector("#tqdm");
+        const records = document.querySelector("#records");
+        i = 0;
+        data.data.forEach((record) => {
+            i ++;
+            tqdm.style.width = `${i/data.length*100}%`;
+            let values = "";
+            Object.values(record).forEach((r) => values += `"${r?r:""}";`);
+            csv += values + "\r\n";
+        });
+        a.download = `${document.querySelector("#dataset").innerHTML}.csv`;
+        a.setAttribute("href", encodeURI(csv));
+        a.setAttribute("onclick", "");
+        a.click();
+        records.innerHTML = "¡Listo!";
+        a.setAttribute("onclick", "download_csv(this)");
+    } else {
+        const records = document.querySelector("#records");
+        records.innerHTML = "No existen registros que cumplan los criterios de búsqueda";
+    };
+
+};
+download_csv();
+</script>
+{%endblock%}

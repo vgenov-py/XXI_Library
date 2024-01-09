@@ -1,0 +1,18 @@
+{%extends "base.html"%}
+{%block main%}
+<h1 class="text-start mb-5">Noticias</h1>
+<section class="d-flex flex-column">
+        {%for new in news%}
+            <div class="mb-5 pb-2 border-top w-75">
+                <div class="d-flex justify-content-between ">
+                    <h3>{{new.title}}</h3>
+                    <p class="fw-lighter fst-italic text-sm-end" >{{new.date}}</p>
+                </div>
+                <div class="d-flex">
+                    <img  class="img-fluid pe-4 w-25" src="https://images.unsplash.com/photo-1510772314292-9c0ad420734a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZmxhbWV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="">
+                    <div class="w-75">{{new.body|safe}}</div>
+                </div>
+            </div>
+        {%endfor%}
+    </section>
+{%endblock%}

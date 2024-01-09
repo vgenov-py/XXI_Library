@@ -1,0 +1,8 @@
+__pycache__
+instance
+*.csv
+*.json
+venv
+config.*
+*.zip
+.DS_Store

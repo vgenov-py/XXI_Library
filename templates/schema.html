@@ -1,0 +1,86 @@
+{%extends "base.html"%}
+{%block main%}
+{%if fields%}
+<div class="d-flex justify-content-center flex-wrap mb-5">
+    <div class="">
+        <h3 class="text-center mb-4">Campos mapeados</h3>
+        <div class="d-flex justify-content-center flex-wrap">
+            <ul class="list-group" style="width: 300px;">
+                {%for field in fields%}
+                {%if loop.index %2 == 0%}
+                <li class="list-group-item {{field.t}}" onmouseover="show_t(this)" onmouseout="show_t(this, true)" data-bs-trigger="click" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="{{field.description}}">
+                    {{field.name}}
+                </li>
+                {%endif%}
+                {%endfor%}
+            </ul>
+            <ul class="list-group me-5" style="width: 300px;">
+                {%for field in fields%}
+                {%if loop.index %2 != 0%}
+                <li class="list-group-item {{field.t}}" onmouseover="show_t(this)" onmouseout="show_t(this, true)" data-bs-trigger="click" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="{{field.description}}">
+                    {{field.name}}
+                </li>
+                {%endif%}
+                {%endfor%}
+            </ul>
+        </div>
+    </div>
+    <div>
+        <h3 class="text-center mb-4">Campos MARC21</h3>
+        <div class="d-flex">
+            <ul class="list-group ms-5" style="width: 175px;">
+                {%for field in fields%}
+                {%if loop.index %2 == 0%}
+                <li class="list-group-item {{field.t}}" onmouseover="show_t(this)" onmouseout="show_t(this, true)" data-bs-trigger="click" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="{{field.t_description}}">
+                    {%if field.t[0] == "_"%}
+                    {{field.t[2:]}}
+                    {%else%}
+                    {{field.t}}
+                    {%endif%}
+                </li>
+                {%endif%}
+                {%endfor%}
+            </ul>
+            <ul class="list-group" style="width: 175px;">
+                {%for field in fields%}
+                {%if loop.index %2 != 0%}
+                <li class="list-group-item {{field.t}}" onmouseover="show_t(this)" onmouseout="show_t(this, true)" data-bs-trigger="click" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="{{field.t_description}}">
+                    {%if field.t[0] == "_"%}
+                    {{field.t[2:]}}
+                    {%else%}
+                    {{field.t}}
+                    {%endif%}
+                </li>
+                {%endif%}
+                {%endfor%}
+            </ul>
+        </div>
+    </div>
+</div>
+{%else%}
+<h3 class="text-center mb-5">Diagramas</h3>
+    <div class="d-flex justify-content-around">
+        <a class="btn btn-dark" href="?dataset=per" role="button">Personas</a>
+        <a class="btn btn-dark" href="?dataset=mon" role="button">Monografías modernas</a>
+        <a class="btn btn-dark" href="?dataset=ent" role="button">Entidades</a>
+        <a class="btn btn-dark" href="?dataset=geo" role="button">Geográfico</a>
+    </div>
+{%endif%}
+
+
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    const show_t = (element, deactivate) => {
+        // const t = element.className.substring(element.className.length -5, element.className.length);
+        const t = element.className.match(/\d{1,}, \d{1,}|\d{1,}|_\d{1,}, \d{1,}|\d/);
+        [...document.getElementsByClassName(element.className)].forEach((element) => {
+            element.className = `list-group-item active ${t[0]}`;
+            element.click()
+            if (deactivate) {
+                element.className = `list-group-item ${t[0]}`;
+            };
+        });
+    };
+</script>
+{%endblock%}
