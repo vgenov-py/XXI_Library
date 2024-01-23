@@ -497,7 +497,11 @@ const show_ul = (input) => {
         };
         // return;
     };
-    setTimeout(() => deleter(), 3500);
+    // console.log(document.activeElement )
+    // if (document.activeElement === dropdown) {
+    //     deleter();
+    // };
+    // setTimeout(() => deleter(), 10000);
 };
 
 const and_or_switch = (switch_element) => {
@@ -505,11 +509,15 @@ const and_or_switch = (switch_element) => {
     if (switch_element.checked) {
         and.className = "";
         or.className = "text-primary";
+        switch_element.value = " OR ";
     } else {
         and.className = "text-primary";
         or.className = "text-";
+        switch_element.value = " AND ";
     };
+    console.log(switch_element.value);
 };
+
 
 const set_filter = (input) => {
     const div_parent = input.parentElement;

@@ -129,6 +129,11 @@ const get_headers = () => {
 };
 
 const show_data = () => {
+    try  {
+        document.querySelector("#data").value;
+    } catch {
+        return;
+    };
     const results_div = document.querySelector("#results_div");
     const spinner = document.querySelector("#results_spinner");
     const title = document.querySelector("#results_title");
@@ -142,11 +147,7 @@ const show_data = () => {
     results_div.className = "container-sm d-flex flex-column justify-content-center mt-5";
     spinner.className = "text-center";
     title.innerHTML = "";
-    try  {
-        document.querySelector("#data").value;
-    } catch {
-        return;
-    };
+    
     const data = JSON.parse(document.querySelector("#data").value);
     if (!data.success) {
         if (data.message.startsWith("El filtro")) {

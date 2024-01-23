@@ -2,19 +2,19 @@
     <div class="d-flex flex-row border-1 border mb-4 justify-content-center align-items-center bne_and_or visually-hidden" style="width: 120px;height: 30px;" id="bne_and_or_1">
         <span class="text-primary">Y&nbsp&nbsp</span>
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onclick="and_or_switch(this)">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onclick="and_or_switch(this)" >
             </div>
             <span class="">O</span>
     </div>
     <div class="container-sm border border-1 d-flex align-items-center my-4  position-relative" style="height:75px">
         <div class="input-group b_filter_group" style="height: 50px;">
-            <input  type="text" class="form-control k" placeholder="Nombre, fecha de nacimiento..." onkeydown="show_ul(this)" id="original_filter">
+            <input  type="text" class="form-control k" placeholder="Nombre, fecha de nacimiento..." onkeyup="show_ul(this)" id="original_filter">
             <select class="form-select" aria-label="Default select example">
                 <option selected onclick="set_value(this)">con valor</option>
                 <option onclick="without_value(this)">sin valor</option>
                 <option value="3" onclick="regardless_value(this)">sin importar valor</option>
               </select>
-            <input  type="text" class="form-control v" placeholder="Valor" onkeydown="set_filter(this)">
+            <input  type="text" class="form-control v" placeholder="Valor" onkeyup="set_filter(this)">
             <div class="d-flex align-items-center">
             <!-- <button class="btn" onclick="trash_filter(this)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
