@@ -1625,7 +1625,7 @@ fields = {
                 "t_description": "Todos los subbcampos menos |2subcampos separados por guiones",
         }        
         ],
-    "par":[
+    "par": [
         {
                 "name": "pais_de_publicacion",
                 "t": "_1008",
@@ -1723,6 +1723,209 @@ fields = {
                 "t": "_1250",
                 "description": "Información sobre la edición",
                 "t_description": "$a, $b",
+        },
+        {
+                "name": "lugar_de_publicacion",
+                "t": "260,264",
+                "description": "Localidad específica en la que se ha publicado",
+                "t_description": "$a",
+        },
+        
+        {
+                "name": "editorial",
+                "t": "260, 264",
+                "description": "Nombre del editor responsable de la publicación",
+                "t_description": "[$i]:$a:$b.$n,$p",
+        },
+        {
+                "name": "extension",
+                "t": "_1300",
+                "description": "Número de cintas, discos, etc., y duración",
+                "t_description": "$a, $b",
+        },
+        {
+                "name": "otras_caracteristicas_fisicas",
+                "t": "_2300",
+                "description": "sonido, color, etc.",
+                "t_description": "$b",
+        },
+        {
+                "name": "dimensiones",
+                "t": "_3300",
+                "description": "Medida del alto de la publicación (en cm)",
+                "t_description": "$c",
+        },
+        {
+                "name": "material_anejo",
+                "t": "_4300",
+                "description": "Material complementario que acompaña a la publicación principal",
+                "t_description": "$e",
+        },
+        {
+                "name": "sonido",
+                "t": "_1344",
+                "description": "Características del sonido",
+                "t_description": "$a$b$c$d$g",
+        },
+        {
+                "name": "equipo",
+                "t": "_1508",
+                "description": "Nombres y funciones del equipo de producción",
+                "t_description": "$a",
+        },
+        {
+                "name": "interpretes",
+                "t": "_1511",
+                "description": "Intérpretes y participantes",
+                "t_description": "$a",
+        },
+        {
+                "name": "fecha_lugar_grabacion",
+                "t": "_1518",
+                "description": "Información sobre la fecha y el lugar de la grabación",
+                "t_description": "$a",
+        },
+        {
+                "name": "resumen",
+                "t": "_1520",
+                "description": "Resumen del contenido",
+                "t_description": "$a",
+        },
+        {
+                "name": "publico",
+                "t": "_1521",
+                "description": "Público al que va destinada la publicación",
+                "t_description": "$a",
+        },
+        {
+                "name": "contenido",
+                "t": "_1505",
+                "description": "Contenido de la publicación",
+                "t_description": "$a",
+        },
+        {
+                "name": "serie",
+                "t": "440,490",
+                "description": "Colección a la que pertenece la publicación",
+                "t_description": "$a$v",
+        },
+        {
+                "name": "tema",
+                "t": "600,610,630,650,651,653",
+                "description": "Materia sobre la que trata la publicación",
+                "t_description": "Todos los subbcampos menos |2subcampos separados por guiones",
+        },
+        {
+                "name": "genero_forma",
+                "t": "_1655",
+                "description": "Género al que pertenece la obra y forma que toma",
+                "t_description": "Todos los subbcampos menos |2subcampos separados por guiones",
+        }        
+        ],
+    "vid":[
+        {
+                "name": "pais_de_publicacion",
+                "t": "_1008",
+                "description": "País de publicación",
+                "t_description": "[15-17]",
+        },
+        {
+                "name": "lengua_principal",
+                "t": "_2008",
+                "description": "Lengua del contenido principal del documento",
+                "t_description": "[35-37]",
+        },
+        {
+                "name": "lengua_subtitulos",
+                "t": "_1041",
+                "description": "Lenguaje de los subtítulos disponibles",
+                "t_description": "$j",
+        },
+        {
+                "name": "otras_lenguas",
+                "t": "_2041",
+                "description": "Lenguas de otros contenidos (resúmenes, tablas de contenidos, notas, etc.)",
+                "t_description": "$b, $d, $f, $j, $k",
+        },
+        {
+                "name": "lengua_original",
+                "t": "_3041",
+                "description": "Lengua original de la que se ha traducido",
+                "t_description": "$h",
+        },
+        {
+                "name": "soporte",
+                "t": "_1007",
+                "description": "Soporte de la videograbación",
+                "t_description": "[01]",
+        },
+        {
+                "name": "color",
+                "t": "_2007",
+                "description": "Tipo de color o ausencia de la videograbación",
+                "t_description": "[03]",
+        },
+        {
+                "name": "sonido",
+                "t": "_3007",
+                "description": "Sonido de la distribución",
+                "t_description": "[05]",
+        },
+        {
+                "name": "fecha_de_publicacion",
+                "t": "_3008",
+                "description": "Fecha de la publicación o de su primera entrega",
+                "t_description": "[7-10]",
+        },
+        {
+                "name": "decada_publicacion",
+                "t": "_4008",
+                "description": "Década de la publicación o de su primera entrega ",
+                "t_description": "[7-10]",
+        },
+        {
+                "name": "siglo_publicacion",
+                "t": "_5008",
+                "description": "Siglo de la publicación o de su primera entrega ",
+                "t_description": "[7-10]",
+        },
+        {
+                "name": "deposito_legal",
+                "t": "_1017",
+                "description": "Número de Depósito Legal",
+                "t_description": "$a",
+        },
+
+        {
+                "name": "cdu",
+                "t": "_1080",
+                "description": "Número de la Clasificación Decimal Universal que representa el tema tratado en la publicación",
+                "t_description": "$a",
+        },
+        {
+                "name": "responsables_e_interpretes",
+                "t": "100, 110, 700, 710",
+                "description": "Responsables del contenido e intérpretes",
+                "t_description": "$a{$b$c}($d)($q)($e)",
+        },
+        {
+                "name": "titulo_normalizado",
+                "t": "130, 240",
+                "description": "Título de la publicación en forma normalizada",
+                "t_description": "$a",
+        },
+        {
+                "name": "titulo",
+                "t": "_1245",
+                "description": "Título de la publicación tal y como aparece citado en la misma ",
+                "t_description": "$a:$b.$n,$p",
+        },
+
+        {
+                "name": "otros_titulos",
+                "t": "246, 740",
+                "description": "Otros títulos de la obra que aparecen citados en la publicación",
+                "t_description": "[$i]:$a:$b.$n,$p",
         },
         {
                 "name": "lugar_de_publicacion",
