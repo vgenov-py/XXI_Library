@@ -4,7 +4,7 @@ BNE API - Versión: 1.2.1
 
 ### Para hacer uso del API deberá indicar el conjunto de datos a consultar
 
-URL BASE: [https://bneapi.infofortis.com/api](https://bneapi.infofortis.com/api)
+URL BASE: [https://apidatosabiertos.bne.es](https://apidatosabiertos.bne.es)
 
     Geográfico: geo,
     Persona: per,
@@ -248,3 +248,15 @@ Si queremos utilizar Google Chrome os recomendamos agregar la extensión <a href
     <img src="/static/tuto_csv2.png"
         alt="JSON_2"
         />
+
+<h3 id="examples">
+Ejemplos de consulta
+</h3>
+
+Algunos ejemplos de consulta 
+
+1. Guitarristas nacidos en **Andalucía**
+
+```
+/api/per?lugar_nacimiento=andalucía&ocupacion=guitarrista
+```

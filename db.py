@@ -154,7 +154,7 @@ class QMO:
             v = value.strip()
             # v:str = v.replace("!","")
             v:str = v.replace("|","")
-            v = re.sub("[^\w !]", " ", v)
+            v = re.sub("[^\w !-]", " ", v)
             if v.endswith("OR"):
                 v = v.replace("OR", "")
                 and_or = " OR  "
