@@ -260,3 +260,27 @@ Algunos ejemplos de consulta
 ```
 /api/per?lugar_nacimiento=andalucía&ocupacion=guitarrista
 ```
+
+2. Libros escritos en inglés durante la Guerra Civil (1936-1939) sobre la temática
+
+```
+/api/mon?fecha_de_publicacion=1936-1939&lengua_principal=inglés&tema=guerra civil
+```
+
+3. Todos los registros geográficos de País Vasco
+
+```
+api/geo?t_781=país vasco
+```
+
+4. Archivos sonoros en soporte **discos**
+
+```
+api/son?soporte=disco
+```
+
+5. Revistas en formatos digital
+
+```
+/api/ser?t_655=páginas web
+```
