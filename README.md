@@ -284,3 +284,33 @@ api/son?soporte=disco
 ```
 /api/ser?t_655=páginas web
 ```
+
+6. Sólo los títulos de libros escritos por autores españoles nacidos en el siglo **XIX**
+
+```
+/api/mon?per=fecha_nacimiento:1900-1999,lugar_nacimiento:españa&fields=titulo
+```
+
+7. Libros anterios a 1831 escritos en inglés pero **NO** en español
+
+```
+/api/moa?lengua_principal=inglés NOT español
+```
+
+8. Sólo titulos, lengua principal y fecha de publicación de libros escritos en francés o aleman escritos durante la decada del 60 del siglo **XIX**
+
+```
+/api/mon?lengua_principal=francés OR alemán&decada=60&siglo=xix&fields=lengua_principal,titulo,fecha_de_publicacion
+```
+
+9. Entidades con identificador ISNI
+
+```
+/api/ent?t_024=isni
+```
+
+10. Solo campos bibliotecarios de revistas publicadas en España de la decada del 30 del siglo **XX**
+
+```
+/api/ser?lugar_de_publicacion=españa&view=marc&lengua_principal=español&decada=30&siglo=xx
+```
