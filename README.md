@@ -255,62 +255,61 @@ Ejemplos de consulta
 
 Algunos ejemplos de consulta 
 
-1. Guitarristas nacidos en **Andalucía**
+###### Guitarristas nacidos en **Andalucía**
 
 ```
 /api/per?lugar_nacimiento=andalucía&ocupacion=guitarrista
 ```
 
-2. Libros escritos en inglés durante la Guerra Civil (1936-1939) sobre la temática
+###### Libros escritos en inglés durante la Guerra Civil (1936-1939) sobre la temática
 
 ```
 /api/mon?fecha_de_publicacion=1936-1939&lengua_principal=inglés&tema=guerra civil
 ```
 
-3. Todos los registros geográficos de País Vasco
+###### Todos los registros geográficos de País Vasco
 
 ```
 api/geo?t_781=país vasco
 ```
 
-4. Archivos sonoros en soporte **discos**
+###### Archivos sonoros en soporte **discos**
 
 ```
 api/son?soporte=disco
 ```
 
-5. Revistas en formatos digital
+###### Revistas en formatos digital
 
 ```
 /api/ser?t_655=páginas web
 ```
 
-6. Sólo los títulos de libros escritos por autores españoles nacidos en el siglo **XIX**
-
+###### Sólo los títulos de libros escritos por autores españoles nacidos en el siglo **XIX**
 ```
 /api/mon?per=fecha_nacimiento:1900-1999,lugar_nacimiento:españa&fields=titulo
 ```
 
-7. Libros anterios a 1831 escritos en inglés pero **NO** en español
+###### Libros anterios a 1831 escritos en inglés pero **NO** en español
 
 ```
 /api/moa?lengua_principal=inglés NOT español
 ```
 
-8. Sólo titulos, lengua principal y fecha de publicación de libros escritos en francés o aleman escritos durante la decada del 60 del siglo **XIX**
+###### Sólo titulos, lengua principal y fecha de publicación de libros escritos en francés o aleman escritos durante la decada del 60 del siglo **XIX**
 
 ```
 /api/mon?lengua_principal=francés OR alemán&decada=60&siglo=xix&fields=lengua_principal,titulo,fecha_de_publicacion
 ```
 
-9. Entidades con identificador ISNI
+###### Entidades con identificador ISNI
 
 ```
 /api/ent?t_024=isni
 ```
 
-10. Solo campos bibliotecarios de revistas publicadas en España de la decada del 30 del siglo **XX**
+###### Solo campos bibliotecarios de revistas publicadas en España de la decada del 30 del siglo **XX** ordenados por **editorial**
 
 ```
-/api/ser?lugar_de_publicacion=españa&view=marc&lengua_principal=español&decada=30&siglo=xx
+/api/ser?lugar_de_publicacion=españa&view=marc&decada=30&siglo=xx&order_by=editorial
 ```
