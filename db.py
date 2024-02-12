@@ -39,17 +39,29 @@ class QMO:
     
     @property
     def available_fields(self) -> list:
+        '''
+        Todos los campos disponibles del dataset (marc21 + humans)
+        '''
         return [row[1] for row in self.cur.execute(f"pragma table_info({self.dataset});")]
                 
     @property
     def marc_fields(self) -> str:
+        '''
+        Todos los campos marc21 del dataset 
+        '''
         return [field[1] for field in self.cur.execute(f"pragma table_info({self.dataset});") if field[1].startswith("t_")]
 
     @property
     def human_fields(self) -> str:
+        '''
+        Todos los campos humans del dataset
+        '''
         return [field[1] for field in self.cur.execute(f"pragma table_info({self.dataset});") if not field[1].startswith("t_")]
 
     def create_struct(self,fields:list):
+        '''
+        struct generado por el dataset con el que se esté trabajando en definitiva es la conversión dict -> JSON (Object de JS)
+        '''
         to_execute = f'''class {self.dataset.capitalize()}(msgspec.Struct, omit_defaults=True):\n    '''
         for field in fields:
             to_execute += f"{field}: Optional[str] = None\n    "
@@ -58,10 +70,16 @@ class QMO:
     
     @property
     def datasets(self):
+        '''
+        Todos los datasets disponibles en la aplicación
+        '''
         return list(map(lambda name:name[0],filter(lambda name: len(name[0]) == 3, self.cur.execute("select name from sqlite_master where type='table';"))))
     
     @property
     def all_fields(self):
+        '''
+        Método utilizado por la ruta /api/schema para generar los esquemas de cada conjunto
+        '''
         '''
         all fields of all tables
         {
@@ -79,17 +97,20 @@ class QMO:
 
     @property
     def purgue(self) -> dict:
+        '''
+        Método que limpia y maneja el mal uso de la aplicación por parte del cliente
+        '''
         result = {}
         error = {"success": False}
         args = self.args.copy()
 
-        dataset_2 = [{dataset:args.pop(dataset)} for dataset in self.datasets if dataset in args.keys()]
-        fields = args.pop("fields", None)
-        limit = args.pop("limit", "1000")
-        order_by = args.pop("order_by", None)
-        view = args.pop("view", False)
-        result["is_from_web"] = args.pop("is_from_web", False)
-        filters = args.items()
+        dataset_2 = [{dataset:args.pop(dataset)} for dataset in self.datasets if dataset in args.keys()] # Ésto es utilizado cuando el usuario hace una joining query entre por ejemplo, per y mon
+        fields = args.pop("fields", None) # Los campos que quiere ver el cliente, ejemplo fields=id,nombre_de_persona
+        limit = args.pop("limit", "1000") # El usuario no puede especificar límite, pero si es que se quiere aumentar por parte del desarrollador, se puede hacer desde aquí
+        order_by = args.pop("order_by", None) # SQL ORDER BY (asc default, desc optional)
+        view = args.pop("view", False) # Campos a mostrar, por defecto todos, y sino view=marc o view=human
+        result["is_from_web"] = args.pop("is_from_web", False) # Si la consulta fue generada desde las rutas de web (cajitas - wikidata style) o en formato RESTful API
+        filters = args.items() # Todos los filtros del usuario, ejemplo nombre_de_persona=Vito Genovese
 
         if limit:
             try:
@@ -101,7 +122,7 @@ class QMO:
 
         if order_by:
             order_key = order_by.split(",")[0]
-            if order_key not in self.available_fields:
+            if order_key not in self.available_fields: # Es necesario verificar si el usuario está filtrando por un campo existente
                 result["message"] = f"No se puede ordenar por {order_key} en {self.dataset}"
                 return error
             try:
@@ -120,7 +141,7 @@ class QMO:
                 error["message"] = f"El campo no existe en la base de datos: {field} - campos disponibles: {self.available_fields}"
                 return error        
        
-        not_available_filter = next(filter(lambda kv: kv[0] not in self.available_fields, filters), None)
+        not_available_filter = next(filter(lambda kv: kv[0] not in self.available_fields, filters), None) # Se verifica que los filtros indicados sean campos existentes en la DB
         if not_available_filter:
             error["message"] = f"El filtro {not_available_filter[0]}, no es un campo disponible - campos disponibles: {self.available_fields}"
             return error
@@ -132,10 +153,10 @@ class QMO:
 
             elif view == "human":
                 fields = reduce(lambda x,y:f"{x},{y}", self.human_fields)
-        result["fields"] = fields if fields else None
+        result["fields"] = fields if fields else None # campos a consultar en la DB todos, marc21, humans o custom
 
         try:
-            result["dataset_2"] = dataset_2[0]
+            result["dataset_2"] = dataset_2[0] # Se verifica si hay un segundo dataset a consultar para realizar una consulta cruzada
         except:
             pass
 
@@ -143,9 +164,9 @@ class QMO:
         return result
     
     def where(self, args: dict, dataset:str = None) -> str:
-        '''In args the filters should be received'''
+        '''Creación de la clausula WHERE de la consulta SQL'''
         args = dict(args)
-        dataset = dataset if dataset else self.dataset
+        dataset = dataset if dataset else self.dataset # Comprobación por si se están consultado dos datasets
         if not args:
             return ""
         result = f"WHERE "
@@ -153,8 +174,8 @@ class QMO:
         for k,value in args.items():
             v = value.strip()
             # v:str = v.replace("!","")
-            v:str = v.replace("|","")
-            v = re.sub("[^\w !-]", " ", v)
+            v:str = v.replace("|","") 
+            v = re.sub("[^\w !-]", " ", v) # Los caracters especiales generan error en el módulo FTS5
             if v.endswith("OR"):
                 v = v.replace("OR", "")
                 and_or = " OR  "
@@ -166,13 +187,13 @@ class QMO:
                 v_where = f'''{dataset}.{k} MATCH '{v}'{and_or}'''
             elif k == "siglo" or k == "decada":
                 v_where = f'''{dataset}.{k} MATCH '{v}'{and_or}'''
-            elif v.find("<") >= 0:
+            elif v.find("<") >= 0: # Evitar que el operador de comparación < caiga dentro del filtro ya que no es válido en la sintaxis
                 v = v.replace("<", "")
                 v_where = f'''{k} >= '{v}' {and_or}'''
             elif v.find(">") >= 0:
                 v = v.replace(">", "")
                 v_where = f'''{k} <= '{v}' {and_or}'''
-            elif re.search("\d{4}\-\d{4}", v):
+            elif re.search("\d{4}\-\d{4}", v): # trabajo con dígitos y más especificamente con años de las fechas como fecha_de_nacimiento
                 s, e = v.split("-")
                 v_where = f'''{k} BETWEEN '{s}' AND '{e}' {and_or}'''
             else:
@@ -180,14 +201,18 @@ class QMO:
 
 
             result += v_where
-        return result[:-5]
+        return result[:-5] # Debe ser quitado el último operador AND o OR
 
     def joining(self) -> str:
+        '''
+        Método a utlizar cuando se consultan más de un conjunto a la vez
+        La forma de hacer ésto no es mediante un INNER JOIN común, sino, realizado dos consultas simples, donde se extraen las FOREIGN KEYS del dataset 2 para utilizarlos como filtro en el dataset 1
+        '''
         '''WHERE id XX OR XX OR XX...'''
         dataset_2 = self.purgue["dataset_2"]
         d_2 = list(dataset_2.keys())[0].strip()
         filters = {}
-        for kv in dataset_2[d_2].split(","):
+        for kv in dataset_2[d_2].split(","): # Filtros del dataset 2 
             k,v = kv.split(":")
             filters[k] = v
         query_2 = f"SELECT id FROM {d_2} "
@@ -203,6 +228,7 @@ class QMO:
         return f"WHERE {d_2}_id MATCH '{ids}'"
         
     def query(self, count=False, limit=True) -> str:
+        '''Unificación de los métodos purge, joining, where'''
         fields = self.purgue.get("fields")
         order_by = self.purgue.get("order_by")
         filters = self.purgue.get("filters")
@@ -234,6 +260,7 @@ class QMO:
         return query
                  
     def get_estimated(self) -> None:
+        '''Método para consultar cuántos resultados la consulta entregará con un timeout de 1.5 segundos (en desuso)'''
         def auxiliar():
             try:
                 with open("length.txt", "w") as file:
@@ -253,11 +280,12 @@ class QMO:
             pass
     
     def json(self) -> dict:
+        '''Método que genera el JSON en base a lo que query haya entregado'''
         res_json = self.purgue
-        if not res_json["success"]:
+        if not res_json["success"]: # False sólo cuando el usuario haga mal uso de la aplicación. True puede suceder por más que la consulta no entregue resultados
             return {"success":False,"message":res_json["message"]}
         
-        if res_json["fields"]:
+        if res_json["fields"]: # Se crea un modelo en base a cada campo extraido del dataset (si fields=id, sólo se generará id)
             self.create_struct(res_json["fields"].split(","))
         else:
             self.create_struct(self.available_fields)
@@ -268,8 +296,8 @@ class QMO:
         '''
         saving query:
         '''
-        if self.dataset != "queries":
-            self.enter(query, error=True, date=dt.datetime.now(), dataset=self.dataset, is_from_web=True if res_json.get("is_from_web") else False)
+        if self.dataset != "queries": # Comprobar que se guarde la consulta a un conjunto y no a queries en sí
+            self.enter(query, error=True, date=dt.datetime.now(), dataset=self.dataset, is_from_web=True if res_json.get("is_from_web") else False) # Se guarda la consulta en la db queries
 
         try:
             if self.dataset == "queries":
@@ -289,7 +317,7 @@ class QMO:
         
         result = {}
         result["success"] = True
-        result["data"] = map(lambda row:structs[self.dataset](*row),res)
+        result["data"] = map(lambda row:structs[self.dataset](*row),res) # generar un _generator_ para luego utilizar el método msgspec en route en pos de aumentar el rendimiento de la aplicación
         result["query"] = query
         return result
     
@@ -321,6 +349,7 @@ class QMO:
     def enter(self, query:str, length:int=None, date:str=None, dataset:str=None, time:float=None,is_from_web:bool=False ,error:bool=None, update:bool=False):
         # g._database = None
         # con = self.get_db("instance/users.db")
+        '''método para guardar la query en queries'''
         try:
             self.cur.execute("ATTACH 'instance/users.db' as queries;")
             query = query[:2000]
@@ -357,7 +386,7 @@ if __name__ == "__main__":
     def get_db(file:str=None):
         return sqlite3.connect(current_app.config.get("DB_FILE") if not file else file)
     import unittest 
-
+    # Estos tests ya no son necesarios
     class test_QMO(unittest.TestCase):
 
         def setUp(self) -> None:
