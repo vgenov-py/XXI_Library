@@ -296,7 +296,7 @@ api/son?soporte=disco
 /api/moa?lengua_principal=inglés NOT español
 ```
 
-###### Sólo titulos, lengua principal y fecha de publicación de libros escritos en francés o aleman escritos durante la decada del 60 del siglo **XIX**
+###### Sólo titulos, lengua principal y fecha de publicación de libros en francés o aleman publicados durante la decada del 60 del siglo **XIX**
 
 ```
 /api/mon?lengua_principal=francés OR alemán&decada=60&siglo=xix&fields=lengua_principal,titulo,fecha_de_publicacion
