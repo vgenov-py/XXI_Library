@@ -1,5 +1,3 @@
-console.log("Código desarrollado por Vito Genovese para la BNE, visita https://infofortis.com")
-
 const add_filter = () => {
     const filter_html = `
     <div class="d-flex flex-row border-1 border mb-4 justify-content-center align-items-center bne_and_or" style="width: 120px;height: 30px;" id="bne_and_or_1">
