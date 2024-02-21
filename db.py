@@ -251,10 +251,10 @@ class QMO:
                 query += f" AND ({d_1_where})"
         else:
             query += self.where(filters.items())    
-        if order_by:
-            if order_by.find(",") >= 0:
-                order_by = order_by.replace(",", " ")
-            query += f" ORDER BY {order_by} "
+        # if order_by:
+        #     if order_by.find(",") >= 0:
+        #         order_by = order_by.replace(",", " ")
+        #     query += f" ORDER BY {order_by} "
         if limit:
             return query + " LIMIT 1000;"
         return query
